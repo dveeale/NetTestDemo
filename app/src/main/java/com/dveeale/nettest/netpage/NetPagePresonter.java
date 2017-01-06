@@ -1,9 +1,8 @@
 package com.dveeale.nettest.netpage;
 
 import android.app.Activity;
-import android.content.Context;
-import android.view.View;
 import com.dveeale.nettest.listener.NetWorkCallBackListener;
+import com.dveeale.nettest.retrofit2.NewsModelImpl;
 
 /**
  * Created by dveeale on 17/1/4.
@@ -13,7 +12,7 @@ public class NetPagePresonter implements NetPageContract.Presenter,NetWorkCallBa
 
   private Activity mActivity;
   private NetPageView mNetPageView;
-  private NetPageModelImpl mNetPageModelImpl;
+  private NewsModelImpl mNewsModelImpl;
 
   private int mTotalCount;
 
@@ -22,7 +21,7 @@ public class NetPagePresonter implements NetPageContract.Presenter,NetWorkCallBa
     this.mNetPageView=mNetPageView;
     this.mNetPageView.setPresenter(this);
 
-    mNetPageModelImpl=new NetPageModelImpl(this);
+    mNewsModelImpl=new NewsModelImpl(this);
   }
 
   @Override public void start() {
@@ -30,10 +29,10 @@ public class NetPagePresonter implements NetPageContract.Presenter,NetWorkCallBa
     mNetPageView.UpdateShowTips("初始化完毕");
   }
 
-  @Override public void AskNetWork(String msg,int totalCount) {
+  @Override public void AskNetWork(String msg,int totalCount,String mNetType) {
     mNetPageView.UpdateShowTips("retrofit2 准备测试:"+msg);
     mTotalCount=totalCount;
-    mNetPageModelImpl.AskNetWork(totalCount);
+    mNewsModelImpl.AskNetWork(totalCount,mNetType);
   }
 
   @Override

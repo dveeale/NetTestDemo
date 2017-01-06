@@ -20,7 +20,7 @@ public interface NetPageContract {
   }
 
   interface Presenter extends BasePresenter {
-    void AskNetWork(String msg,int totalCount);
+    void AskNetWork(String msg,int totalCount,String mNetType);
 
   }
 }

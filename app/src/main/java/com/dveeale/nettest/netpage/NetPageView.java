@@ -22,84 +22,78 @@ import org.w3c.dom.Text;
 
 public class NetPageView implements NetPageContract.CView {
 
-          private Activity mActivity;
-          private NetPagePresonter mPersonter;
+  private Activity mActivity;
+  private NetPagePresonter mPersonter;
 
-          private Spinner mSpinner;
-          private Button mStratButton;
-          private EditText mNumEditText;
-          private LinearLayout mShowLayout;
-          private TextView mResultTextView;
+  private Spinner mSpinner;
+  private Button mStratButton;
+  private EditText mNumEditText;
+  private LinearLayout mShowLayout;
+  private TextView mResultTextView;
 
+  public NetPageView() {
 
+  }
 
-          public NetPageView(){
+  @Override public void setPresenter(NetPagePresonter presenter) {
+    mPersonter = presenter;
+  }
 
-          }
+  @Override public void initViews(Activity mActivity) {
+    this.mActivity = mActivity;
+    mSpinner = (Spinner) mActivity.findViewById(R.id.NetSpinner);
+    mStratButton = (Button) mActivity.findViewById(R.id.srartButton);
+    mNumEditText = (EditText) mActivity.findViewById(R.id.NumEditText);
+    mShowLayout = (LinearLayout) mActivity.findViewById(R.id.showLayout);
+    mResultTextView = (TextView) mActivity.findViewById(R.id.ResultTextView);
 
-          @Override public void setPresenter(NetPagePresonter presenter) {
-            mPersonter=presenter;
-          }
+    initSpinner(mActivity);
+    initStartButton();
+  }
 
-          @Override
-          public void initViews(Activity mActivity) {
-            this.mActivity=mActivity;
-            mSpinner=(Spinner)mActivity.findViewById(R.id.NetSpinner);
-            mStratButton=(Button)mActivity.findViewById(R.id.srartButton);
-            mNumEditText=(EditText)mActivity.findViewById(R.id.NumEditText);
-            mShowLayout=(LinearLayout)mActivity.findViewById(R.id.showLayout);
-            mResultTextView=(TextView)mActivity.findViewById(R.id.ResultTextView);
+  @Override public void ShowTips(String msg) {
+    Toast.makeText(mActivity, msg, Toast.LENGTH_SHORT).show();
+  }
 
-            initSpinner(mActivity);
-            initStartButton(mActivity);
-          }
-
-          @Override public void ShowTips(String msg) {
-            Toast.makeText(mActivity,msg,Toast.LENGTH_SHORT).show();
-          }
-
-          @Override public void UpdateShowTips(String msg) {
-            TextView textView=new TextView(mActivity);
-            textView.setText(msg);
-            textView.setTextColor(Color.BLUE);
-            mShowLayout.addView(textView);
-
-          }
+  @Override public void UpdateShowTips(String msg) {
+    TextView textView = new TextView(mActivity);
+    textView.setText(msg);
+    textView.setTextColor(Color.BLUE);
+    mShowLayout.addView(textView);
+  }
 
   @Override public void UpdateResultTips(String msg) {
     mResultTextView.setText(msg);
   }
 
-  private void initStartButton(final Activity mActivity) {
+  private void initStartButton() {
 
-          mStratButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-              mShowLayout.removeAllViews();
-              mResultTextView.setText("开始测试，请稍后...");
-              String url=mSpinner.getSelectedItem().toString();
+    mStratButton.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        mShowLayout.removeAllViews();
+        mResultTextView.setText("开始测试，请稍后...");
+        String netUrl = mSpinner.getSelectedItem().toString();
 
-              int count=10;
-
+        int count = 10;
         try {
-          count=Integer.parseInt(mNumEditText.getText().toString());
+          count = Integer.parseInt(mNumEditText.getText().toString());
         } catch (NumberFormatException e) {
           e.printStackTrace();
         }
 
-        mPersonter.AskNetWork(url,count);
+        mPersonter.AskNetWork(netUrl, count,netUrl);
       }
     });
   }
 
-  private void initSpinner(Activity mActivity){
-    ArrayList<String> list=new ArrayList<String>();
+  private void initSpinner(Activity mActivity) {
+    ArrayList<String> list = new ArrayList<String>();
+    list.add("百度");
+    list.add("东方头条");
     list.add("约单");
-    list.add("新闻头条");
-    list.add("百思不得姐");
-    ArrayAdapter<String> arrayAdapter=new ArrayAdapter<String>(mActivity,android.R.layout.simple_spinner_item,list);
+    ArrayAdapter<String> arrayAdapter =
+        new ArrayAdapter<String>(mActivity, android.R.layout.simple_spinner_item, list);
     arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mSpinner.setAdapter(arrayAdapter);
-
   }
 }

@@ -1,4 +1,4 @@
-package com.dveeale.nettest.retrofit.netpage;
+package com.dveeale.nettest.retrofit2.news;
 
 import java.util.List;
 

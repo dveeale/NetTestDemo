@@ -1,4 +1,4 @@
-package com.dveeale.nettest.retrofit.netpage;
+package com.dveeale.nettest.retrofit2.news;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -9,7 +9,7 @@ import retrofit2.http.Url;
  * Created by dveeale on 17/1/4.
  */
 
-public interface NetPageService {
+public interface NewsService {
   @GET("") Call<String> getNetwork(@Url String url);
 
   @GET("/jsonnew/refresh")
